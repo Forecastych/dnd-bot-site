@@ -395,14 +395,18 @@ async function sendToBot() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user_id: TELEGRAM_USER_ID,
+        user_id: parseInt(TELEGRAM_USER_ID), 
+        character_name: data.name,           
         character: data
       })
     });
+
     if (response.ok) {
       alert('Персонаж отправлен боту успешно!');
     } else {
-      alert('Ошибка отправки персонажа.');
+      const error = await response.json();
+      alert(`Ошибка отправки персонажа: ${error.detail}`);
+      console.error(error);
     }
   } catch (e) {
     alert('Ошибка сети или сервера.');
