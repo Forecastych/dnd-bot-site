@@ -417,10 +417,13 @@ async function sendToBot() {
 // Загружаем персонажа с сервера (бота)
 async function loadFromBot() {
   try {
-    const response = await fetch(`${BACKEND_URL}/load_character?user_id=${TELEGRAM_USER_ID}`);
-    if (!response.ok) throw new Error('Ошибка получения данных');
-    const data = await response.json();
+  const characterName = localStorage.getItem("lastCharacterName") || prompt("Введите имя персонажа:");
 
+    const response = await fetch(`${BACKEND_URL}/load_character?user_id=${TELEGRAM_USER_ID}&character_name=${encodeURIComponent(characterName)}`);
+    if (!response.ok) throw new Error('Ошибка получения данных');
+
+    const result = await response.json();
+    const data = result.character;
     // Заполняем поля из полученного JSON
     if (data) {
       if (data.name) document.getElementById('character-name').textContent = data.name;
