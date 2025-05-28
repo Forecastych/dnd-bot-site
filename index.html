@@ -402,6 +402,7 @@ async function sendToBot() {
     });
 
     if (response.ok) {
+      localStorage.setItem("lastCharacterName", data.name);
       alert('Персонаж отправлен боту успешно!');
     } else {
       const error = await response.json();
