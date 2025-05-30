@@ -6,22 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Персонаж Dark Fantasy DnD</title>
   <style>
+    @font-face {
+      font-family: 'TanaUncialSP';
+      src: url('./fonts/TanaUncialSP.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+}
     body {
       background-color: #1a1a1a;
       color: #ddd;
-      font-family: 'Uncial Antiqua', serif !important;
+      font-family: 'TanaUncialSP', serif !important;
 
       padding: 20px;
       max-width: 900px;
       margin: auto;
     }
     h1, h2, h3 {
-      font-family: 'Uncial Antiqua', serif;
+      font-family: 'TanaUncialSP', serif;
       color: #b34e2d;
       margin-bottom: 5px;
     }
     body, input, textarea, select, button, [contenteditable], p, span, div {
-      font-family: 'Uncial Antiqua', serif;
+      font-family: 'TanaUncialSP', serif;
     }
     .section {
       border: 1px solid #4b2e1e;
@@ -366,7 +373,7 @@ function autosave() {
   console.log('Данные автосохранены');
 }
 
-const TELEGRAM_USER_ID = '529193051'; // поменяй на свой ID
+const TELEGRAM_USER_ID = '529193051';
 
 // Адрес backend сервера (где запущен бот или прокси API)
 const BACKEND_URL = 'https://dndbot-ejj9.onrender.com';
