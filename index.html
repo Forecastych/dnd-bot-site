@@ -1,111 +1,273 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Персонаж Dark Fantasy DnD</title>
   <style>
     @font-face {
-      font-family: 'TanaUncialSP';
-      src: url('./fonts/TanaUncialSP.otf') format('opentype');
+      font-family: 'Rupster Script Free Regular';
+      src: url('./fonts/Rupster Script Free Regular.ttf') format('opentype');
       font-weight: normal;
       font-style: normal;
       font-display: swap;
 }
     body {
-      background-color: #1a1a1a;
-      color: #ddd;
-      font-family: 'TanaUncialSP', serif !important;
+  background-color: #1a1a1a;
+  color: #ddd;
+  font-family: 'Rupster Script Free Regular', serif;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  line-height: 1.6;
+}
 
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h1, h2, h3 {
-      font-family: 'TanaUncialSP', serif;
-      color: #b34e2d;
-      margin-bottom: 5px;
-    }
-    body, input, textarea, select, button, [contenteditable], p, span, div {
-      font-family: 'TanaUncialSP', serif;
-    }
-    .section {
-      border: 1px solid #4b2e1e;
-      padding: 15px;
-      margin-bottom: 20px;
-      background: #2a211a;
-      border-radius: 6px;
-    }
-    .flex-row {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .attribute, .stat {
-      background: #3b2f25;
-      padding: 10px 15px;
-      border-radius: 4px;
-      flex: 1 1 120px;
-      min-width: 120px;
-      text-align: center;
-    }
-    .label {
-      font-weight: 700;
-      font-size: 0.9em;
-      margin-bottom: 5px;
-      color: #d47b4a;
-    }
-    [contenteditable]:focus {
-      outline: 2px solid #d47b4a;
-      background: #443827;
-    }
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    li {
-      background: #3b2f25;
-      margin-bottom: 10px;
-      padding: 8px 12px;
-      border-radius: 4px;
-    }
-    .move-title {
-      font-weight: 700;
-      color: #bb6a42;
-    }
-    .move-text {
-      margin-top: 4px;
-      font-size: 0.9em;
-      color: #c9ad8e;
-    }
-    button {
-      background: #b34e2d;
-      border: none;
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 4px;
+body, input, textarea, select, button, [contenteditable], p, span, div {
+  font-family: 'Rupster Script Free Regular', serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Rupster Script Free Regular', serif;
+  color: #b34e2d;
+  text-shadow: 1px 1px 2px #000;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+/* Кнопка в правом нижнем углу */
+    #dice-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/0/0f/Dice-1-b.svg') no-repeat center/contain;
       cursor: pointer;
-      font-weight: 700;
-      margin: 5px 5px 0 0;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #d47b4a;
+      transition: box-shadow 0.3s;
+      z-index: 10000;
+      background-color: #4b2e1e;
     }
-    button:hover {
-      background: #d26a3b;
+    #dice-button:hover {
+      box-shadow: 0 0 20px #d47b4a;
     }
-    .icon {
-      font-size: 1.2em;
-      margin-right: 5px;
+
+    /* Модальное окно */
+    #dice-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(20, 10, 5, 0.95);
+      display: none; /* скрыто по умолчанию */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
     }
-    .modifier {
-      margin-top: 5px;
-      font-size: 0.85em;
-      color: #a8896d;
+
+    #dice-modal-content {
+      background: #2a211a;
+      padding: 20px;
+      border-radius: 10px;
+      color: #f2e0c9;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
     }
+
+    /* Кнопка закрытия */
+    #close-modal {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      color: #d47b4a;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .dice-option {
+      display: inline-block;
+      background: #4b2e1e;
+      color: #f2e0c9;
+      padding: 10px 14px;
+      margin: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      user-select: none;
+    }
+
+    .dice-option:hover {
+      background: #6a3a25;
+    }
+
+    /* Анимация кубика */
+    .dice-animation {
+      width: 100px;
+      height: 100px;
+      margin: 20px auto;
+      animation: spin 2s linear infinite;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0f/Dice-1-b.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    #dice-result {
+      font-size: 1.4em;
+      margin-top: 15px;
+      color: #d47b4a;
+      font-weight: bold;
+      min-height: 30px;
+    }
+
+    #dice-history {
+      margin-top: 20px;
+      text-align: left;
+      max-height: 130px;
+      overflow-y: auto;
+      background: #3b2f25;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.95em;
+      user-select: text;
+    }
+
+    #dice-history div {
+      margin-bottom: 5px;
+    }
+
+.section {
+  border: 1px solid #4b2e1e;
+  padding: 18px;
+  margin-bottom: 25px;
+  background: linear-gradient(145deg, #2a211a, #1d1712);
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00000055;
+}
+
+.flex-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.attribute, .stat {
+  background: #3b2f25;
+  padding: 12px 18px;
+  border-radius: 6px;
+  flex: 1 1 120px;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: inset 0 0 4px #00000066;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  color: #d47b4a;
+  text-shadow: 0 0 2px #000;
+}
+
+[contenteditable]:focus {
+  outline: 2px solid #d47b4a;
+  background: #443827;
+  box-shadow: 0 0 6px #b34e2d;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+li {
+  background: #3b2f25;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 2px #000000aa;
+}
+
+.move-title {
+  font-weight: 700;
+  color: #bb6a42;
+  text-shadow: 0 0 2px #000;
+}
+
+.move-text {
+  margin-top: 4px;
+  font-size: 0.9em;
+  color: #c9ad8e;
+}
+
+button {
+  background: #b34e2d;
+  border: none;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 2px 6px #00000066;
+  transition: background 0.2s ease;
+  font-family: 'Rupster Script Free Regular', serif;
+}
+
+button:hover {
+  background: #d26a3b;
+}
+
+.icon {
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.modifier {
+  margin-top: 5px;
+  font-size: 0.85em;
+  color: #a8896d;
+}
+
   </style>
 </head>
 <body>
 
 <h1 contenteditable="true" id="character-name">Имя персонажа</h1>
+
+<!-- Кнопка вызова -->
+<div id="dice-button" title="Бросить кубик"></div>
+
+
+<!-- Модальное окно -->
+<div id="dice-modal">
+  <div id="dice-modal-content">
+    <button id="close-modal" title="Закрыть">&times;</button>
+    <h3>Выбери кубик</h3>
+    <div>
+      <div class="dice-option" onclick="rollDice(4)">d4</div>
+      <div class="dice-option" onclick="rollDice(6)">d6</div>
+      <div class="dice-option" onclick="rollDice(8)">d8</div>
+      <div class="dice-option" onclick="rollDice(10)">d10</div>
+      <div class="dice-option" onclick="rollDice(12)">d12</div>
+      <div class="dice-option" onclick="rollDice(20)">d20</div>
+      <div class="dice-option" onclick="rollDice(6, 2)">2d6</div>
+    </div>
+    <div id="dice-animation" class="dice-animation" style="display: none;"></div>
+    <div id="dice-result" class="dice-result"></div>
+    <div id="dice-history" class="dice-history"></div>
+  </div>
+</div>
 
 <div class="section">
   <h2>Внешность</h2>
@@ -237,6 +399,81 @@
 </div>
 
 <script>
+  const modal = document.getElementById('dice-modal');
+  const openBtn = document.getElementById('dice-button');
+  const closeBtn = document.getElementById('close-modal');
+  const animation = document.getElementById('dice-animation');
+  const resultBox = document.getElementById('dice-result');
+  const historyBox = document.getElementById('dice-history');
+  // Загружаем историю из localStorage или пустой массив
+  let diceHistory = JSON.parse(localStorage.getItem('diceHistory')) || [];
+  diceHistory = diceHistory.filter(entry => 
+    typeof entry === 'string' && entry.trim().toLowerCase().startsWith('бросок')
+    );
+
+  // Отрисовка истории в окне
+  function renderHistory() {
+    historyBox.innerHTML = '';
+    let lastFive = diceHistory.slice().reverse();
+    lastFive.forEach(entry => {
+      const div = document.createElement('div');
+      div.textContent = entry;
+      historyBox.appendChild(div);
+    });
+  }
+
+  // Сохраняем историю в localStorage
+  function saveHistory() {
+    localStorage.setItem('diceHistory', JSON.stringify(diceHistory));
+  }
+
+  openBtn.onclick = () => {
+    modal.style.display = 'flex';
+    resultBox.textContent = '';
+    renderHistory();
+  };
+
+  closeBtn.onclick = () => {
+    modal.style.display = 'none';
+    animation.style.display = 'none';
+  };
+
+  function rollDice(sides, count = 1) {
+    resultBox.textContent = '';
+    animation.style.display = 'block';
+
+    setTimeout(() => {
+      animation.style.display = 'none';
+
+      let rolls = [];
+      for (let i = 0; i < count; i++) {
+        rolls.push(Math.floor(Math.random() * sides) + 1);
+      }
+
+      const total = rolls.reduce((sum, r) => sum + r, 0);
+      let resultText = "";
+
+      if (count === 1) {
+        resultText = `бросок = ${rolls[0]}`;
+      } else {
+        resultText = `бросок ${rolls.join(' + ')} = ${total}`;
+      }
+
+      resultBox.textContent = resultText;
+
+      // Добавляем в историю и сохраняем
+      diceHistory.push(resultText);
+      diceHistory = diceHistory.filter(entry => 
+      typeof entry === 'string' && entry.trim().toLowerCase().startsWith('бросок')
+      );
+      if (diceHistory.length > 100) {
+      diceHistory = diceHistory.slice(diceHistory.length - 100);
+      }
+      saveHistory();
+      renderHistory();
+    }, 2000);
+  }
+  
  function getModifier(value) {
   value = parseInt(value);
   if (isNaN(value)) return 0;
