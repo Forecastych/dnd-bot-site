@@ -41,7 +41,7 @@ h1, h2, h3 {
       right: 20px;
       width: 60px;
       height: 60px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/0/0f/Dice-1-b.svg') no-repeat center/contain;
+      background: url('https://www.pngall.com/wp-content/uploads/15/DND-Dice-PNG-Photos.png') no-repeat center/contain;
       cursor: pointer;
       border-radius: 50%;
       box-shadow: 0 0 10px #d47b4a;
@@ -49,7 +49,7 @@ h1, h2, h3 {
       z-index: 10000;
       background-color: #4b2e1e;
     }
-    #dice-button:hover {
+    .dice-button:hover {
       box-shadow: 0 0 20px #d47b4a;
     }
 
@@ -88,7 +88,7 @@ h1, h2, h3 {
       font-weight: bold;
     }
 
-    #dice-option {
+    .dice-option {
       display: inline-block;
       background: #4b2e1e;
       color: #f2e0c9;
@@ -101,7 +101,7 @@ h1, h2, h3 {
       user-select: none;
     }
 
-    #dice-option:hover {
+    .dice-option:hover {
       background: #6a3a25;
     }
 
@@ -111,7 +111,7 @@ h1, h2, h3 {
       height: 100px;
       margin: 20px auto;
       animation: spin 2s linear infinite;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0f/Dice-1-b.svg');
+      background-image: url('https://media.tenor.com/KBNPB0oVi_oAAAAj/nat19-natural19.gif');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -478,9 +478,19 @@ button:hover {
       let resultText = "";
 
       if (count === 1) {
-        resultText = `бросок = ${rolls[0]}`;
+        resultText = `Бросок = ${rolls[0]}`;
       } else {
-        resultText = `бросок ${rolls.join(' + ')} = ${total}`;
+        resultText = `Бросок ${rolls.join(' + ')} = ${total}`;
+      }
+      
+      const percent = (total / (sides * count)) * 100;
+
+      if (percent < 58) {
+      resultBox.style.color = 'red';
+      } else if (percent >= 58 && percent <= 75) {
+      resultBox.style.color = 'orange';
+      } else {
+      resultBox.style.color = 'green';
       }
 
       resultBox.textContent = resultText;
