@@ -20,7 +20,7 @@
       color: #b34e2d;
       margin-bottom: 5px;
     }
-    body, input, textarea, select, button, [contenteditable] {
+    body, input, textarea, select, button, [contenteditable], p, span, div {
       font-family: 'Uncial Antiqua', serif;
     }
     .section {
@@ -219,7 +219,7 @@
 
 <div class="section">
   <h2>Заметки</h2>
-  <p contenteditable="true" id="backstory" style="min-height: 80px;">Рассказ о мрачном прошлом персонажа...</p>
+  <p contenteditable="true" id="notes" style="min-height: 80px;">Может персонаж любит пиво...</p>
 </div>
 
 <div class="section">
@@ -275,6 +275,7 @@ function getContent() {
     xp: document.getElementById('xp').textContent,
     racialAbility: document.getElementById('racial-ability').textContent,
     backstory: document.getElementById('backstory').textContent,
+    notes: document.getElementById('notes').textContent,
     attributes: ['str','dex','con','int','wis','cha'].map(id => ({
       name: document.querySelector(`[for="${id}"]`)?.textContent || id,
       value: document.getElementById(id).textContent
@@ -320,6 +321,7 @@ function loadFromFile() {
       document.getElementById('xp').textContent = data.xp || '';
       document.getElementById('racial-ability').textContent = data.racialAbility || '';
       document.getElementById('backstory').textContent = data.backstory || '';
+      document.getElementById('notes').textContent = data.notes || '';
       ['str','dex','con','int','wis','cha'].forEach((id, i) => {
         if(data.attributes && data.attributes[i]) {
           document.getElementById(id).textContent = data.attributes[i].value;
@@ -451,6 +453,7 @@ async function loadFromBot() {
       document.getElementById('xp').textContent = data.xp || '';
       document.getElementById('racial-ability').textContent = data.racialAbility || '';
       document.getElementById('backstory').textContent = data.backstory || '';
+      document.getElementById('notes').textContent = data.notes || '';
       ['str','dex','con','int','wis','cha'].forEach((id, i) => {
         if(data.attributes && data.attributes[i]) {
           document.getElementById(id).textContent = data.attributes[i].value;
