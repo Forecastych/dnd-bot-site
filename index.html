@@ -266,6 +266,7 @@ button:hover {
     <div id="dice-animation" class="dice-animation" style="display: none;"></div>
     <div id="dice-result" class="dice-result"></div>
     <div id="dice-history" class="dice-history"></div>
+    <button id="clear-history-btn">Очистить историю</button>
   </div>
 </div>
 
@@ -410,7 +411,15 @@ button:hover {
   diceHistory = diceHistory.filter(entry => 
     typeof entry === 'string' && entry.trim().toLowerCase().startsWith('бросок')
     );
-
+  let xp = parseInt(localStorage.getItem('xp')) || 0;
+  document.getElementById('xp').textContent = xp;
+  document.getElementById('xp').addEventListener('input', function () {
+  const newVal = parseInt(this.textContent);
+  if (!isNaN(newVal)) {
+    xp = newVal;
+    localStorage.setItem('xp', xp);
+  }
+  });
   // Отрисовка истории в окне
   function renderHistory() {
     historyBox.innerHTML = '';
@@ -437,7 +446,22 @@ button:hover {
     modal.style.display = 'none';
     animation.style.display = 'none';
   };
+  document.getElementById('clear-history-btn').addEventListener('click', () => {
+  diceHistory = [];
+  saveHistory();
+  renderHistory();
+  });
+  document.getElementById('clear-history-btn').addEventListener('click', () => {
+  // Очистка истории бросков
+  diceHistory = [];
+  saveHistory();
+  renderHistory();
 
+  // Обнуление опыта (если нужно)
+  xp = 0;
+  localStorage.setItem('xp', xp);
+  document.getElementById('xp').textContent = xp;
+  });
   function rollDice(sides, count = 1) {
     resultBox.textContent = '';
     animation.style.display = 'block';
@@ -463,6 +487,10 @@ button:hover {
 
       // Добавляем в историю и сохраняем
       diceHistory.push(resultText);
+      xp += 1;
+      localStorage.setItem('xp', xp);
+      document.getElementById('xp').textContent = xp;
+
       diceHistory = diceHistory.filter(entry => 
       typeof entry === 'string' && entry.trim().toLowerCase().startsWith('бросок')
       );
@@ -473,7 +501,7 @@ button:hover {
       renderHistory();
     }, 2000);
   }
-  
+
  function getModifier(value) {
   value = parseInt(value);
   if (isNaN(value)) return 0;
