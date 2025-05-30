@@ -767,6 +767,14 @@ async function loadFromBot() {
   }
 }
 
+function setupMovesListeners() {
+  const movesList = document.getElementById('moves-list');
+  if (!movesList) return;
+
+  movesList.querySelectorAll('[contenteditable="true"]').forEach(el => {
+    el.addEventListener('input', autosave);
+  });
+}
 
 // Загружаем contenteditable данные
 function autoload() {
@@ -794,7 +802,7 @@ function autoload() {
       });
     }
   }
-
+  setupMovesListeners()
   updateModifiers(); // обновляем бонусы после загрузки
   console.log('Данные загружены из автосохранения');
 }
@@ -814,6 +822,10 @@ document.getElementById('add-move-btn').addEventListener('click', () => {
     <div class="move-text" contenteditable="true">Описание хода...</div>
   `;
   movesList.appendChild(li);
+   li.querySelectorAll('[contenteditable="true"]').forEach(el => {
+    el.addEventListener('input', autosave);
+  });
+  autosave();
 });
 
 </script>
