@@ -183,18 +183,6 @@ h1, h2, h3 {
   filter: brightness(0.6); /* затемнение рамки */
 }
 
-/* Затемнённый слой под текстом */
-.section::after {
-  content: '';
-  position: absolute;
-  top: 20px; bottom: 20px;
-  left: 20px; right: 20px;
-  background: rgba(10, 5, 3, 0.5); /* затемнение под текст */
-  border-radius: 4px;
-  z-index: 2;
-  pointer-events: none;
-}
-
 /* Текст поверх всех слоёв */
 .section > * {
   position: relative;
