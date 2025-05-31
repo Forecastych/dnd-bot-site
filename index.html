@@ -159,14 +159,47 @@ h1, h2, h3 {
     }
 
 .section {
-  border: 1px solid #4b2e1e;
-  padding: 18px;
+  position: relative;
+  padding: 30px 18px; /* место под рамку и текст */
   margin-bottom: 25px;
   background: linear-gradient(145deg, #2a211a, #1d1712);
   border-radius: 8px;
   box-shadow: 0 0 10px #00000055;
+  color: #ddd;
+  z-index: 1;
+  overflow: visible;
 }
 
+/* Рамка */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 8px;
+  background: url('frame.png') no-repeat center center;
+  background-size: 100% 100%;
+  z-index: 1;
+  pointer-events: none;
+  filter: brightness(0.6); /* затемнение рамки */
+}
+
+/* Затемнённый слой под текстом */
+.section::after {
+  content: '';
+  position: absolute;
+  top: 20px; bottom: 20px;
+  left: 20px; right: 20px;
+  background: rgba(10, 5, 3, 0.5); /* затемнение под текст */
+  border-radius: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Текст поверх всех слоёв */
+.section > * {
+  position: relative;
+  z-index: 3;
+}
 .flex-row {
   display: flex;
   gap: 15px;
